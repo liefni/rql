@@ -3,7 +3,7 @@ RSpec.describe Rql do
     expect(Rql::VERSION).not_to be nil
   end
 
-  it "does something useful" do
-    expect(false).to eq(true)
+  it "can find a book" do
+    expect(Book.first).to be_truthy
   end
 end

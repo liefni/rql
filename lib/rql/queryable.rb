@@ -1,3 +1,5 @@
+require "active_support/concern"
+
 module Rql
   module Queryable
     extend ActiveSupport::Concern
