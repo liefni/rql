@@ -7,11 +7,11 @@ module Rql
       include Orders
       include Logic
 
-      def initialize(model, arel, name = nil, scope = nil)
-        @model = model
+      def initialize(scope, arel, name = nil)
+        @scope = scope
+        @model = scope.unscoped
         @arel = arel
         @name = name
-        @scope = scope || model
       end
 
       def arel
@@ -28,11 +28,13 @@ module Rql
       end
 
       def rql
-        Context.new(@model, @arel, @name, @scope.rql)
+        Context.new(@scope.rql, @arel, @name)
       end
 
       def where(*attributes, &block)
-        Context.new(@model, @arel, @name, @scope.where(*attributes, &block))
+        model = @name.to_s.classify.constantize
+        model = model.rql if @scope.is_a?(Scope::RqlScope)
+        Context.new(@scope.merge(model.where(*attributes, &block)), @arel, @name)
       end
     end
   end

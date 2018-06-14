@@ -1,0 +1,3 @@
+adapter: 'postgresql'
+host: 'localhost'
+database: 'rql_test'

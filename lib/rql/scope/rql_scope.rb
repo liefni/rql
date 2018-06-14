@@ -23,9 +23,18 @@ module Rql
 
       def respond_to_missing?(method_name, include_private = false)
         @block_methods.respond_to?(method_name, include_private) ||
-          @param_methods.send(method_name, include_private) ||
+          @param_methods.respond_to?(method_name, include_private) ||
           super.respond_to?(method_name, include_private) ||
           super
+      end
+
+      def merge(other)
+        other = other.scope if other.is_a?(RqlScope)
+        RqlScope.new(scope.merge(other))
+      end
+
+      def to_a
+        scope.to_a
       end
     end
   end

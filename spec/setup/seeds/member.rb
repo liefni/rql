@@ -1,7 +1,7 @@
 require 'csv'
 
-class Member < ActiveRecord::Base
-
+class Member < ApplicationRecord
+  has_many :books
 end
 
 Member.create!(

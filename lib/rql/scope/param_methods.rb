@@ -6,7 +6,7 @@ module Rql
       end
 
       def select(*attributes)
-        scope.select(*attributes.map{|attr| scope.derived_attributes[attr]&.arel&.as(attr.to_s) || attr})
+        scope.select(*attributes.map{|attr| scope.derived_attributes[attr] ? scope.eval_rql(true, &scope.derived_attributes[attr]).arel : attr})
       end
 
       def order(*attributes)

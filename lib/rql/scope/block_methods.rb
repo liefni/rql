@@ -6,7 +6,7 @@ module Rql
       end
 
       def select(&block)
-        scope.select(*build_attributes(&block))
+        scope.select(*build_attributes(true, &block))
       end
 
       def order(&block)
@@ -28,8 +28,8 @@ module Rql
           joins.map(&:to_h)
         end
 
-        def build_attributes(&block)
-          attributes = scope.eval_rql(&block)
+        def build_attributes(alias_derived_attr = false, &block)
+          attributes = scope.eval_rql(alias_derived_attr, &block)
           attributes = [attributes] unless attributes.is_a?(Array)
           attributes.map(&:arel)
         end

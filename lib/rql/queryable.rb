@@ -9,8 +9,8 @@ module Rql
         return Scope::RqlScope.new(all)
       end
 
-      def eval_rql(&query)
-        Dsl::Base.new(self).instance_eval(&query)
+      def eval_rql(alias_derived_attr = false, &query)
+        Dsl::Base.new(self, alias_derived_attr).instance_eval(&query)
       end
 
       def derive_attr(name, &query)
