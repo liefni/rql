@@ -1,8 +1,6 @@
-# Rql
+# RQL
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/rql`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+RQL is a DSL for active record designed to allow derived/calculated attributes on models to be used in database queries.
 
 ## Installation
 
@@ -22,7 +20,27 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+You can define a derived attribute in your model like this:
+```ruby
+class Book < ActiveRecord::Base
+  include Rql::Queryable
+
+  derived_attr :leaves do
+    pages / 2
+  end
+end
+```
+
+and use it in a query like this:
+```ruby
+Book.rql.where(leaves: 100)
+```
+
+or
+
+```ruby
+Book.rql.where{leaves > 100}
+```
 
 ## Development
 
@@ -32,7 +50,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/rql.
+Bug reports and pull requests are welcome on GitHub at https://github.com/liefni/rql.
 
 ## License
 
