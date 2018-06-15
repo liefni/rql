@@ -1,3 +1,3 @@
-RSpec.describe Rql::DSL::Context do
+RSpec.describe Rql::Dsl::Context do
 
 end
