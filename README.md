@@ -1,4 +1,4 @@
-# RQL
+# RQL [![Build Status](https://secure.travis-ci.org/liefni/rql.png)](http://travis-ci.org/liefni/rql)
 
 RQL is a DSL for active record designed to allow derived/calculated attributes on models to be used in database queries.
 
