@@ -2,6 +2,8 @@
 
 RQL is a DSL for ActiveRecord designed to allow derived/calculated attributes on models to be used in database queries.
 
+[Api Documentation](https://www.rubydoc.info/gems/rql/)
+
 ## Installation
 
 Add this line to your application's Gemfile:
