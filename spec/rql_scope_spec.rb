@@ -24,7 +24,8 @@ RSpec.describe Rql::Scope::RqlScope do
       end
 
       it "should order by an array of attributes" do
-
+        expect(Author.rql.order{[total_books, name]}.first.name).to eq("A. E. van Vogt")
+        expect(Author.rql.order{[total_books, name]}.offset(9).first.name).to eq("Alice Hoffman")
       end
     end
 
@@ -74,11 +75,12 @@ RSpec.describe Rql::Scope::RqlScope do
 
     describe "select" do
       it "should support a derived attribute" do
-
+        expect(Author.rql.select(:total_pages).first.attributes).to include('total_pages')
       end
 
       it "should support a normal attribute" do
-
+        expect(Author.rql.select(:name).first.name).to be_truthy
+        expect(Author.rql.select(:name).first.id).to be_falsey
       end
     end
 
