@@ -116,11 +116,15 @@ RSpec.describe Rql::Scope::RqlScope do
 
     describe "order" do
       it "should support a derived attribute" do
-
+        expect(Author.rql.order(:total_books).first.total_books).to eq(0)
+        expect(Author.rql.order(:total_books).offset(Author.count - 50).first.total_books).to eq(4)
+        expect(Author.rql.order(:total_books).offset(Author.count - 1).first.total_books).to eq(44)
       end
 
       it "should support a normal attribute" do
-
+        expect(Author.rql.order(:name).first.name).to eq('A. A. Milne')
+        expect(Author.rql.order(:name).offset(Author.count - 50).first.name).to eq('Victor Hugo')
+        expect(Author.rql.order(:name).offset(Author.count - 1).first.name).to eq('Émile Zola')
       end
     end
 
@@ -154,6 +158,10 @@ RSpec.describe Rql::Scope::RqlScope do
   end
 
   describe "to_a" do
+
+  end
+
+  describe "arel" do
 
   end
 
