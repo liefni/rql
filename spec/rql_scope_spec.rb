@@ -53,7 +53,7 @@ RSpec.describe Rql::Scope::RqlScope do
   describe "param methods" do
     describe "where" do
       it "should support values" do
-        expect(Author.rql.where(name: 'J. K. Rolling').count).to eq(1)
+        expect(Author.rql.where(name: 'J. K. Rowling').count).to eq(1)
       end
 
       context "ranges" do
@@ -90,8 +90,12 @@ RSpec.describe Rql::Scope::RqlScope do
         expect(Author.rql.where(total_books: [3, 5, 6]).count).to eq(63)
       end
 
-      it "should support sub queries" do
+      it "should support rql sub queries" do
         expect(Author.rql.where(id: Book.rql.where{name.starts_with?('H')}.select(:author_id)).count).to eq(26)
+      end
+
+      it "should support sub queries" do
+        expect(Author.rql.where(id: Book.rql.where{name.starts_with?('H')}.select(:author_id).all).count).to eq(26)
       end
 
       it "should support nested hashes" do
