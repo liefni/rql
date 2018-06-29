@@ -33,6 +33,10 @@ module Rql
         RqlScope.new(scope.merge(other))
       end
 
+      def arel
+        scope.arel
+      end
+
       def to_a
         scope.to_a
       end

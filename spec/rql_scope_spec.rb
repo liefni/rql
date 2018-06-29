@@ -53,23 +53,49 @@ RSpec.describe Rql::Scope::RqlScope do
   describe "param methods" do
     describe "where" do
       it "should support values" do
-
+        expect(Author.rql.where(name: 'J. K. Rolling').count).to eq(1)
       end
 
-      it "should support ranges" do
+      context "ranges" do
+        context "range start is -infinity" do
+          context "range end is infinity" do
+            it "returns all records" do
+              expect(Author.rql.where(total_books: -Float::INFINITY..Float::INFINITY).count).to eq(Author.count)
+            end
+          end
 
+          context "range end is finite" do
+            it "return all records smaller or equal to the end value" do
+              expect(Author.rql.where(total_books: -Float::INFINITY..3).count).to eq(1019)
+            end
+          end
+        end
+
+        context "range start is finite" do
+          context "range end is infinity" do
+            it "returns all values larger or equal to the start value" do
+              expect(Author.rql.where(total_books: 5..Float::INFINITY).count).to eq(27)
+            end
+          end
+
+          context "range end is finite" do
+            it "return all values between the start value and the end value" do
+              expect(Author.rql.where(total_books: 3..5).count).to eq(14)
+            end
+          end
+        end
       end
 
       it "should support arrays" do
-
+        expect(Author.rql.where(total_books: [3, 5, 6]).count).to eq(63)
       end
 
       it "should support sub queries" do
-
+        expect(Author.rql.where(id: Book.rql.where{name.starts_with?('H')}.select(:author_id)).count).to eq(26)
       end
 
       it "should support nested hashes" do
-
+        expect(Author.rql.joins(:books).where(book: {name: 'The Hobbit'}).first.name).to eq('J. R. R. Tolkien')
       end
     end
 
