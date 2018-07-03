@@ -4,44 +4,45 @@ RSpec.describe Rql::Dsl::Context do
 
     describe "calculate" do
       it "uses specified aggregate function" do
-
+        expect(dsl.books.calculate(:pages, :sum).arel.to_s).to eq("COALESCE((SELECT author_pages_sums.\"sum\" FROM (SELECT \"authors\".\"id\", SUM(\"books\".\"pages\") FROM \"authors\" INNER JOIN \"books\" ON \"books\".\"author_id\" = \"authors\".\"id\" GROUP BY \"authors\".\"id\") author_pages_sums WHERE \"authors\".\"id\" = author_pages_sums.\"id\"), 0)")
+        expect(dsl.books.calculate(:pages, :average).arel.to_s).to eq("COALESCE((SELECT author_pages_averages.\"average\" FROM (SELECT \"authors\".\"id\", AVG(\"books\".\"pages\") FROM \"authors\" INNER JOIN \"books\" ON \"books\".\"author_id\" = \"authors\".\"id\" GROUP BY \"authors\".\"id\") author_pages_averages WHERE \"authors\".\"id\" = author_pages_averages.\"id\"), 0)")
       end
     end
 
     describe "sum" do
       it "uses SUM" do
-
+        expect(dsl.books.sum(:pages).arel.to_s).to eq(dsl.books.calculate(:pages, :sum).arel.to_s)
       end
     end
 
     describe "average" do
       it "uses AVG" do
-
+        expect(dsl.books.average(:pages).arel.to_s).to eq(dsl.books.calculate(:pages, :average).arel.to_s)
       end
     end
 
     describe "minimum" do
       it "uses MIN" do
-
+        expect(dsl.books.minimum(:pages).arel.to_s).to eq(dsl.books.calculate(:pages, :minimum).arel.to_s)
       end
     end
 
     describe "maximum" do
       it "uses MAX" do
-
+        expect(dsl.books.maximum(:pages).arel.to_s).to eq(dsl.books.calculate(:pages, :maximum).arel.to_s)
       end
     end
 
     describe "count" do
       context "no param" do
         it "counts id column" do
-
+          expect(dsl.books.count.arel.to_s).to eq(dsl.books.calculate(:id, :count).arel.to_s)
         end
       end
 
       context "with param" do
         it "counts specified param" do
-
+          expect(dsl.books.count(:author_id).arel.to_s).to eq(dsl.books.calculate(:author_id, :count).arel.to_s)
         end
       end
     end

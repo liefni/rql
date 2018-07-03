@@ -15,7 +15,7 @@ module Rql
       # Evaluates a block of code against the RQL DSL
       #
       # @param alias_derived_attr [Boolean] value specifying if derived attributes will be assigned an alias
-      # @param &block [Block] the code block to be converted to sql
+      # @yield the code block to be converted to sql
       # @return [Rql::Dsl::Context] object wrapping arel for the evaluated block of code
       def eval_rql(alias_derived_attr = false, &block)
         Dsl::Base.new(self, alias_derived_attr).instance_eval(&block)
@@ -24,7 +24,7 @@ module Rql
       # Defines a derived attribute on a model
       #
       # @param name [Symbol] the name of the derived attribute
-      # @param &block [Block] the code to derive the attribute
+      # @yield the code to derive the attribute
       # @!macro [attach] derive_attr
       #   @return [Object] the value of the derived attribute
       def derive_attr(name, &block)
@@ -37,7 +37,7 @@ module Rql
 
       # Preloads the specified derived attributes from the database
       #
-      # @param *attributes [Array<Symbol>] the attributes to be preloaded
+      # @param attributes [Array<Symbol>] the attributes to be preloaded
       # @return scope including derived attributes
       def derive(*attributes)
         rql.select(self.arel_table[Arel.star], *attributes).all
@@ -45,7 +45,7 @@ module Rql
 
       # Gets the derived attributes defined on the model
       #
-      # @returns [Hash<Symbol, Proc>] hash of derived attributes indexed by name
+      # @return [Hash<Symbol, Proc>] hash of derived attributes indexed by name
       def derived_attributes
         @derive_attribute ||= {}
       end

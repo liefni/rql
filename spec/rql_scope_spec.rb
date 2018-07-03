@@ -66,7 +66,7 @@ RSpec.describe Rql::Scope::RqlScope do
 
           context "range end is finite" do
             it "return all records smaller or equal to the end value" do
-              expect(Author.rql.where(total_books: -Float::INFINITY..3).count).to eq(1019)
+              expect(Author.rql.where(total_books: -Float::INFINITY..3).count).to eq(1017)
             end
           end
         end
@@ -123,16 +123,16 @@ RSpec.describe Rql::Scope::RqlScope do
 
       it "should support a normal attribute" do
         expect(Author.rql.order(:name).first.name).to eq('A. A. Milne')
-        expect(Author.rql.order(:name).offset(Author.count - 50).first.name).to eq('Victor Hugo')
-        expect(Author.rql.order(:name).offset(Author.count - 1).first.name).to eq('Émile Zola')
+        expect(Author.rql.order(:name).offset(Author.count - 50).first.name).to eq('Vernor Vinge')
+        expect(Author.rql.order(:name).offset(Author.count - 1).first.name).to eq('Zora Neale Hurston')
       end
 
       it "should support a string order" do
-        expect(Author.rql.order("name desc").first.name).to eq('Émile Zola')
+        expect(Author.rql.order("name desc").first.name).to eq('Zora Neale Hurston')
       end
 
       it "should support specifying order" do
-        expect(Author.rql.order(name: :desc).first.name).to eq('Émile Zola')
+        expect(Author.rql.order(name: :desc).first.name).to eq('Zora Neale Hurston')
       end
     end
 
