@@ -7,16 +7,12 @@ class Author < ApplicationRecord
     books.sum(:pages)
   end
 
-  derive_attr :total_pages do
-    books.sum(:pages)
-  end
-
   derive_attr :total_books do
     books.count
   end
 
   derive_attr :total_a_book_pages do
-    books.rql.where{name.starts_with?('a')}.sum(:pages)
+    books.rql.where{name.start_with?('a')}.sum(:pages)
   end
 end
 

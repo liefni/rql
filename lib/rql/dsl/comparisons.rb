@@ -27,11 +27,11 @@ module Rql
         Context.new(@model, arel.gteq(value))
       end
 
-      def starts_with?(value)
+      def start_with?(value)
         Context.new(@model, arel.matches("#{value}%"))
       end
 
-      def ends_with?(value)
+      def end_with?(value)
         Context.new(@model, arel.matches("%#{value}"))
       end
 

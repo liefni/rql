@@ -7,6 +7,8 @@ module Rql
       include Orders
       include Logic
 
+      attr_accessor :arel, :scope, :model
+
       def initialize(scope, arel, name = nil)
         @scope = scope
         @model = scope.unscoped
@@ -14,8 +16,8 @@ module Rql
         @name = name
       end
 
-      def arel
-        @arel
+      def context_name
+        @name
       end
 
       def build_context(name)

@@ -1,4 +1,4 @@
-Book,Author
+Book,Author,Member
 Harry Potter and the Philosopher's Stone,J. K. Rowling
 Harry Potter and the Chamber of Secrets,J. K. Rowling
 Harry Potter and the Half-Blood Prince,J. K. Rowling
@@ -7,23 +7,23 @@ Harry Potter and the Order of the Phoenix,J. K. Rowling
 Harry Potter and the Goblet of Fire,J. K. Rowling
 Harry Potter and the Deathly Hallows,J. K. Rowling
 The Hobbit,J. R. R. Tolkien
-1984,George Orwell
+1984,George Orwell,Sue Jones
 Pride and Prejudice,Jane Austen
 The Da Vinci Code,Dan Brown
 To Kill a Mockingbird,Harper Lee
 The Catcher in the Rye,J. D. Salinger
 The Great Gatsby,F. Scott Fitzgerald
-Twilight,Stephenie Meyer
+Twilight,Stephenie Meyer,Sue Jones
 The Hunger Games,Suzanne Collins
 The Kite Runner,Khaled Hosseini
 Jane Eyre,Charlotte Brontë
 Animal Farm,George Orwell
-Brave New World,Aldous Huxley
+Brave New World,Aldous Huxley,John Smith
 The Lord of the Rings,J. R. R. Tolkien
 New Moon,Stephenie Meyer
-Angels & Demons,Dan Brown
+Angels & Demons,Dan Brown,John Smith
 The Fellowship of the Ring,J. R. R. Tolkien
-Fahrenheit 451,Ray Bradbury
+Fahrenheit 451,Ray Bradbury,John Smith
 The Curious Incident of the Dog in the Night-Time,Mark Haddon
 Wuthering Heights,Emily Brontë
 Life of Pi,Yann Martel
