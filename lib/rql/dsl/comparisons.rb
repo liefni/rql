@@ -5,6 +5,10 @@ module Rql
         Context.new(@model, arel.eq(value))
       end
 
+      def !=(value)
+        Context.new(@model, arel.not_eq(value))
+      end
+
       def ===(range)
         min_query = (range.min != -Float::INFINITY) ? arel.gt(range.min) : Arel.sql('1').eq(1)
         max_query = (range.max != Float::INFINITY) ? arel.lt(range.max) : Arel.sql('1').eq(1)

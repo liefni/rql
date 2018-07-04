@@ -87,7 +87,8 @@ to query the database.
 
 |Operator  |Example                               |SQL (In Postgres)                                       |
 |----------|--------------------------------------|--------------------------------------------------------|
-|==        |` Book.rql.where {pages == 200}`      |`SELECT * FROM "book" WHERE "book"."pages" = 200`       |
+|==        |`Book.rql.where {pages == 200}`       |`SELECT * FROM "book" WHERE "book"."pages" = 200`       |
+|!=        |`Book.rql.where {pages != 200}`       |`SELECT * FROM "book" WHERE "book"."pages" != 200`      |
 |===       |`Book.rql.where {pages === (200..300)}`|`SELECT * FROM "book" WHERE "book"."pages" >= 200 AND "book"."pages" >= 200` |
 |>         |`Book.rql.where {pages > 200}`        |`SELECT * FROM "book" WHERE "book"."pages" > 200`       |
 |<         |`Book.rql.where {pages < 200}`        |`SELECT * FROM "book" WHERE "book"."pages" < 200`       |

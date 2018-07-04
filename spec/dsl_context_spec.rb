@@ -57,6 +57,12 @@ RSpec.describe Rql::Dsl::Context do
       end
     end
 
+    describe "!=" do
+      it "uses not equal comparison" do
+        expect((dsl.name != 'ABC').arel.to_sql).to eq("\"authors\".\"name\" != 'ABC'")
+      end
+    end
+
     describe "===" do
       let(:dsl) {Rql::Dsl::Base.new(Book)}
 
