@@ -1,3 +1,6 @@
 adapter: 'postgresql'
 host: 'localhost'
 database: 'rql_test'
+template: 'template0'
+collation: 'en_US'
+ctype: 'en_US'
