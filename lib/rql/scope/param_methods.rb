@@ -1,22 +1,42 @@
 module Rql
   module Scope
-    class ParamMethods < MethodGroup
+    module ParamMethods
+      # Filters scope based on specified conditions
+      #
+      # @param conditions [Hash] A hash of attribute => value conditions to filter on. Use nested hashes to filter on associations. Supports ranges and arrays as values.
+      # @return [Rql::Scope::RqlScope] a new scope filtered by the specified conditions
       def where(**conditions)
         scope.where(build_conditions(conditions))
       end
 
+      # Specifies attributes to be selected from the database
+      #
+      # @param attributes [Array] the attributes to select
+      # @return [Rql::Scope::RqlScope] a new scope selecting the specified attributes
       def select(*attributes)
         scope.select(*attributes.map{|attr| scope.derived_attributes[attr] ? scope.eval_rql(&scope.derived_attributes[attr]).as(attr).arel : attr})
       end
 
+      # Orders by specified attributes
+      #
+      # @param attributes [Array] the attributes to order by. Attributes may be a symbol, sql string or a hash specifying attribute and order.
+      # @return [Rql::Scope::RqlScope] a new scope ordered by the specified attributes
       def order(*attributes)
         scope.order(*build_order(attributes))
       end
 
+      # Joins to the specified associated models
+      #
+      # @param attributes [Array] the associations to join to. Use nested hashes to chain joins through associations.
+      # @return [Rql::Scope::RqlScope] a new scope joining the specified associations
       def joins(*attributes)
         scope.joins(*attributes)
       end
 
+      # Includes the specified associated models
+      #
+      # @param attributes [Array] the associations to include. Use nested hashes to include associations of associations.
+      # @return [Rql::Scope::RqlScope] a new scope including the specified associations
       def includes(*attributes)
         scope.includes(*attributes)
       end
@@ -53,6 +73,10 @@ module Rql
             end
           order_by.flatten
         end
+    end
+
+    class ParamMethodGroup < MethodGroup
+      include ParamMethods
     end
   end
 end

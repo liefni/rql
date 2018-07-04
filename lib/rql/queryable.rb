@@ -5,7 +5,7 @@ module Rql
     extend ActiveSupport::Concern
 
     class_methods do
-      # Gets and RQL scope object for access to rql query methods
+      # Gets an RQL scope object for access to rql query methods
       #
       # @return [Rql::Scope::RqlScope] object wrapping the current scope
       def rql

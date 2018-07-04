@@ -24,7 +24,7 @@ RSpec.describe Rql::Scope::RqlScope do
       end
 
       it "should order by an array of attributes" do
-        expect(Author.rql.order{[total_books, name]}.first.name).to eq("A. E. van Vogt")
+        expect(Author.rql.order{[total_books, name]}.first.name).to eq("A E van Vogt")
         expect(Author.rql.order{[total_books, name]}.offset(9).first.name).to eq("Alice Hoffman")
       end
     end
@@ -53,7 +53,7 @@ RSpec.describe Rql::Scope::RqlScope do
   describe "param methods" do
     describe "where" do
       it "should support values" do
-        expect(Author.rql.where(name: 'J. K. Rowling').count).to eq(1)
+        expect(Author.rql.where(name: 'J K Rowling').count).to eq(1)
       end
 
       context "ranges" do
@@ -66,7 +66,7 @@ RSpec.describe Rql::Scope::RqlScope do
 
           context "range end is finite" do
             it "return all records smaller or equal to the end value" do
-              expect(Author.rql.where(total_books: -Float::INFINITY..3).count).to eq(1017)
+              expect(Author.rql.where(total_books: -Float::INFINITY..3).count).to eq(1018)
             end
           end
         end
@@ -87,7 +87,7 @@ RSpec.describe Rql::Scope::RqlScope do
       end
 
       it "should support arrays" do
-        expect(Author.rql.where(total_books: [3, 5, 6]).count).to eq(63)
+        expect(Author.rql.where(total_books: [3, 5, 6]).count).to eq(62)
       end
 
       it "should support rql sub queries" do
@@ -99,7 +99,7 @@ RSpec.describe Rql::Scope::RqlScope do
       end
 
       it "should support nested hashes" do
-        expect(Author.rql.joins(:books).where(book: {name: 'The Hobbit'}).first.name).to eq('J. R. R. Tolkien')
+        expect(Author.rql.joins(:books).where(book: {name: 'The Hobbit'}).first.name).to eq('J R R Tolkien')
       end
     end
 
@@ -122,7 +122,7 @@ RSpec.describe Rql::Scope::RqlScope do
       end
 
       it "should support a normal attribute" do
-        expect(Author.rql.order(:name).first.name).to eq('A. A. Milne')
+        expect(Author.rql.order(:name).first.name).to eq('A A Milne')
         expect(Author.rql.order(:name).offset(Author.count - 50).first.name).to eq('Vernor Vinge')
         expect(Author.rql.order(:name).offset(Author.count - 1).first.name).to eq('Zora Neale Hurston')
       end

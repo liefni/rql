@@ -1,22 +1,42 @@
 module Rql
   module Scope
-    class BlockMethods < MethodGroup
+    module BlockMethods
+      # Filters scope based on specified conditions
+      #
+      # @yield RQL block defining the conditions to filter on
+      # @return [Rql::Scope::RqlScope] a new scope filtered by the specified conditions
       def where(&block)
         scope.where(scope.eval_rql(&block).arel)
       end
 
+      # Specifies attributes to be selected from the database
+      #
+      # @yield RQL block defining the attributes to be selected
+      # @return [Rql::Scope::RqlScope] a new scope selecting the specified attributes
       def select(&block)
         scope.select(*build_attributes(true, &block))
       end
 
+      # Orders by specified attributes
+      #
+      # @yield RQL block defining the attributes order by
+      # @return [Rql::Scope::RqlScope] a new scope ordered by the specified attributes
       def order(&block)
         scope.order(*build_attributes(&block))
       end
 
+      # Joins to the specified associated models
+      #
+      # @yield RQL block defining the associations to join to
+      # @return [Rql::Scope::RqlScope] a new scope joining the specified associations
       def joins(&block)
         scope.joins(*build_join_path(&block))
       end
 
+      # Includes the specified associated models
+      #
+      # @yield RQL block defining the associations to include
+      # @return [Rql::Scope::RqlScope] a new scope including the specified associations
       def includes(&block)
         scope.includes(*build_join_path(&block))
       end
@@ -33,6 +53,10 @@ module Rql
           attributes = [attributes] unless attributes.is_a?(Array)
           attributes.map(&:arel)
         end
+    end
+
+    class BlockMethodGroup < MethodGroup
+      include BlockMethods
     end
   end
 end
