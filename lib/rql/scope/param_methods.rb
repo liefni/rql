@@ -17,6 +17,14 @@ module Rql
         scope.select(*attributes.map{|attr| scope.derived_attributes[attr] ? scope.eval_rql(&scope.derived_attributes[attr]).as(attr).arel : attr})
       end
 
+      # Plucks the specified attributes, creating and array of values
+      #
+      # @param attributes [Array] the attributes to select
+      # @return [Array] an array of values if plucking one value or an array of arrays if plucking multiple values
+      def pluck(*attributes)
+        scope.pluck(*attributes.map{|attr| scope.derived_attributes[attr] ? scope.eval_rql(&scope.derived_attributes[attr]).as(attr).arel : attr})
+      end
+
       # Orders by specified attributes
       #
       # @param attributes [Array] the attributes to order by. Attributes may be a symbol, sql string or a hash specifying attribute and order.

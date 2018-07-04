@@ -16,6 +16,16 @@ RSpec.describe Rql::Scope::RqlScope do
       end
     end
 
+    describe "pluck" do
+      it "should select a single attribute" do
+        expect(Author.rql.pluck{total_books}.first).to eq(11)
+      end
+
+      it "should select an array of attributes" do
+        expect(Author.rql.pluck{[name, total_books]}.first).to eq(['J K Rowling', 11])
+      end
+    end
+
     describe "order" do
       it "should order by a single attribute" do
         expect(Author.rql.order{total_books}.first.total_books).to eq(0)
@@ -111,6 +121,16 @@ RSpec.describe Rql::Scope::RqlScope do
       it "should support a normal attribute" do
         expect(Author.rql.select(:name).first.name).to be_truthy
         expect(Author.rql.select(:name).first.id).to be_falsey
+      end
+    end
+
+    describe "pluck" do
+      it "should support a derived attribute" do
+        expect(Author.rql.pluck(:total_books).first).to eq(11)
+      end
+
+      it "should support a normal attribute" do
+        expect(Author.rql.pluck(:name).first).to eq('J K Rowling')
       end
     end
 

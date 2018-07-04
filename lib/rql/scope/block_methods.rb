@@ -17,6 +17,14 @@ module Rql
         scope.select(*build_attributes(true, &block))
       end
 
+      # Plucks the specified attributes, creating and array of values
+      #
+      # @yield RQL block defining the attributes to be selected
+      # @return [Array] an array of values if plucking one value or an array of arrays if plucking multiple values
+      def pluck(&block)
+        scope.pluck(*build_attributes(true, &block))
+      end
+
       # Orders by specified attributes
       #
       # @yield RQL block defining the attributes order by
