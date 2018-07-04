@@ -1,6 +1,6 @@
 # RQL [![Build Status](https://secure.travis-ci.org/liefni/rql.svg)](http://travis-ci.org/liefni/rql) [![Gem Version](https://badge.fury.io/rb/rql.svg)](https://badge.fury.io/rb/rql)
 
-RQL is a DSL for ActiveRecord designed to allow derived/calculated attributes on models to be used in database queries.
+RQL is a DSL for Ruby on Rails' ActiveRecord, designed to allow derived/calculated attributes on models to be used in database queries.
 
 [Api Documentation](https://www.rubydoc.info/gems/rql/)
 
