@@ -183,6 +183,10 @@ RSpec.describe Rql::Scope::RqlScope do
     end
   end
 
+  it "should support derive scopes" do
+    expect(Author.derive(:total_pages).rql.order{total_pages.desc}.first.total_pages > 500).to be(true)
+  end
+
   it "should support chained scopes" do
     expect(Author.rql.select{total_pages}.order{total_pages.desc}.first.total_pages > 500).to be(true)
   end

@@ -18,7 +18,7 @@ module Rql
       # @yield the code block to be converted to sql
       # @return [Rql::Dsl::Context] object wrapping arel for the evaluated block of code
       def eval_rql(alias_derived_attr = false, &block)
-        Dsl::Base.new(self, alias_derived_attr).instance_eval(&block)
+        Dsl::Base.new(self.unscoped, alias_derived_attr).instance_eval(&block)
       end
 
       # Defines a derived attribute on a model
