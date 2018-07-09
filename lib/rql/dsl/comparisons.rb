@@ -31,16 +31,20 @@ module Rql
         Context.new(@model, arel.gteq(value))
       end
 
+      def =~(value)
+        Context.new(@model, arel.matches_regexp(value.source, !value.casefold?))
+      end
+
       def start_with?(value)
-        Context.new(@model, arel.matches("#{value}%"))
+        Context.new(@model, arel.matches("#{value}%", nil, true))
       end
 
       def end_with?(value)
-        Context.new(@model, arel.matches("%#{value}"))
+        Context.new(@model, arel.matches("%#{value}", nil, true))
       end
 
       def include?(value)
-        Context.new(@model, arel.matches("%#{value}%"))
+        Context.new(@model, arel.matches("%#{value}%", nil, true))
       end
 
       def in?(collection)

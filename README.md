@@ -81,6 +81,32 @@ If a derived attribute has not been preloaded then the code will be evaluated in
 accessed. For instance calling `Book.first.leaves` will return `pages / 2` just as a normal method would, without having
 to query the database.
 
+### Case Sensitivity and Regexp
+
+As strings in ruby are case sensitive, to get consistent results when derived attributes are both run is the context of 
+model and in the database you will need to configure your database to be case sensitive.
+
+To perform case-insensitive queries downcase the values you are comparing e.g.
+
+```ruby
+Authors.where{name.downcase == my_string.downcase}
+```
+
+Alternatively you can use regexp matching with the =~ operator. This is case sensitive by default but supports the case 
+insensitive flag.
+
+Case sensitive regexp match:
+
+```ruby
+Authors.where{name =~ /[A-Za-z]/}
+```
+
+Case insensitive match using i flag:
+
+```ruby
+Authors.where{name =~ /[A-Z]/i}
+```
+
 ### Query DSL
 
 #### Operators
@@ -94,6 +120,7 @@ to query the database.
 |<         |`Book.rql.where {pages < 200}`        |`SELECT * FROM "book" WHERE "book"."pages" < 200`       |
 |>=        |`Book.rql.where {pages >= 200}`       |`SELECT * FROM "book" WHERE "book"."pages" >= 200`      |
 |<=        |`Book.rql.where {pages <= 200}`       |`SELECT * FROM "book" WHERE "book"."pages" <= 200`      |
+|=~        |`Book.rql.where {name =~ /^[A-Z]*$/}` |`SELECT * FROM "book" WHERE "book"."name" ~ '^[A-Z]*$'` |
 |+         |`Book.rql.where {pages + 2 == 200}`   |`SELECT * FROM "book" WHERE ("book"."pages" + 2) = 200` |
 |-         |`Book.rql.where {pages - 2 == 200}`   |`SELECT * FROM "book" WHERE ("book"."pages" - 2) = 200` |
 |*         |`Book.rql.where {pages * 2 == 200}`   |`SELECT * FROM "book" WHERE "book"."pages" * 2 = 200`   |
@@ -108,7 +135,8 @@ to query the database.
 |`start_with?` |`Book.rql.where {name.start_with?('A')}`  |`SELECT * FROM "book" WHERE "book"."name" ILIKE 'A%'`   |
 |`end_with?`   |`Book.rql.where {name.end_with?('A')}`    |`SELECT * FROM "book" WHERE "book"."name" ILIKE '%A'`   |
 |`include?`    |`Book.rql.where {name.include?('A')}`     |`SELECT * FROM "book" WHERE "book"."name" ILIKE '%A%'`  |
-|`in? `        |`Book.rql.where {name.in?(['A', 'B'])}`   |`SELECT * FROM "book" WHERE "book"."name" IN ('A', 'B')`|
+|`in?`         |`Book.rql.where {name.in?(['A', 'B'])}`   |`SELECT * FROM "book" WHERE "book"."name" IN ('A', 'B')`|
+|`downcase`    |`Book.rql.where {name.downcase == 'a'}`   |`SELECT * FROM "book" WHERE LOWER("book"."name") = 'a'` |
 
 |Aggregates                       |Example                                                   |
 |---------------------------------|----------------------------------------------------------|

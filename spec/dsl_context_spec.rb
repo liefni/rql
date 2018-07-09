@@ -121,19 +121,33 @@ RSpec.describe Rql::Dsl::Context do
 
     describe "start_with?" do
       it "uses like other%" do
-        expect(dsl.name.start_with?('ABC').arel.to_sql).to eq("\"authors\".\"name\" ILIKE 'ABC%'")
+        expect(dsl.name.start_with?('ABC').arel.to_sql).to eq("\"authors\".\"name\" LIKE 'ABC%'")
+      end
+    end
+
+    describe "=~" do
+      context "when case insensitive flag not set" do
+        it "uses case sensitive regexp comparison" do
+          expect((dsl.name =~ /^[A-Z]*$/).arel.to_sql).to eq("\"authors\".\"name\" ~ '^[A-Z]*$'")
+        end
+      end
+
+      context "when case insensitive flag set" do
+        it "uses case insensitve regexp comparison" do
+          expect((dsl.name =~ /^[A-Z]*$/i).arel.to_sql).to eq("\"authors\".\"name\" ~* '^[A-Z]*$'")
+        end
       end
     end
 
     describe "end_with?" do
       it "uses like %other" do
-        expect(dsl.name.end_with?('ABC').arel.to_sql).to eq("\"authors\".\"name\" ILIKE '%ABC'")
+        expect(dsl.name.end_with?('ABC').arel.to_sql).to eq("\"authors\".\"name\" LIKE '%ABC'")
       end
     end
 
     describe "include?" do
       it "uses like %other%" do
-        expect(dsl.name.include?('ABC').arel.to_sql).to eq("\"authors\".\"name\" ILIKE '%ABC%'")
+        expect(dsl.name.include?('ABC').arel.to_sql).to eq("\"authors\".\"name\" LIKE '%ABC%'")
       end
     end
 
@@ -244,6 +258,16 @@ RSpec.describe Rql::Dsl::Context do
         it "orders asc" do
           expect((dsl.pages.desc(false)).arel.to_sql).to eq("\"books\".\"pages\" ASC")
         end
+      end
+    end
+  end
+
+  describe "functions" do
+    let(:dsl) {Rql::Dsl::Base.new(Author)}
+
+    describe "downcase" do
+      it "should apply lower function to attribute" do
+        expect((dsl.name.downcase == 'J K Rowling'.downcase).arel.to_sql).to eq("LOWER(\"authors\".\"name\") = 'j k rowling'")
       end
     end
   end

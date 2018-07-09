@@ -6,6 +6,7 @@ module Rql
       include Maths
       include Orders
       include Logic
+      include Functions
 
       attr_accessor :arel, :scope, :model
 

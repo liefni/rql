@@ -214,4 +214,17 @@ RSpec.describe Rql::Scope::RqlScope do
   it "should support nested scopes" do
     expect(Author.rql.select{books.rql.where{name.start_with?('H')}.count.as(:h_books)}.first.h_books).to eq(7)
   end
+
+  it "can regex match" do
+    expect(Author.rql.where{name =~ /^[0-9]*$/}.count).to eq(0)
+    expect(Author.rql.where{name =~ /^[A-Za-z\s]*$/}.count).not_to eq(0)
+    expect(Author.rql.where{name =~ /^[a-z\s]*$/i}.count).not_to eq(0)
+
+    expect(Author.first.name  =~ /^[A-Za-z\s]*$/).to be_truthy
+  end
+
+  it "can downcase" do
+    expect(Author.rql.where{name == 'J K ROWLING'}.count).to eq(0)
+    expect(Author.rql.where{name.downcase == 'J K ROWLING'.downcase}.count).to eq(1)
+  end
 end
